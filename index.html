@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey you... ❤️</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #09090b; color: #f4f4f5; overflow-x: hidden; }
+
+  .heart {
+    position: fixed;
+    font-size: 20px;
+    animation: floatUp linear forwards;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(244, 63, 94, 0.3), 0 0 60px rgba(244, 63, 94, 0.1); }
+    50% { box-shadow: 0 0 40px rgba(244, 63, 94, 0.5), 0 0 80px rgba(244, 63, 94, 0.2); }
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .delay-1 { animation-delay: 0.2s; }
+  .delay-2 { animation-delay: 0.5s; }
+  .delay-3 { animation-delay: 0.8s; }
+  .delay-4 { animation-delay: 1.1s; }
+
+  .yes-btn {
+    animation: glowPulse 2s ease-in-out infinite, breathe 3s ease-in-out infinite;
+    transition: all 0.3s ease;
+  }
+  .yes-btn:hover {
+    transform: scale(1.15) !important;
+    box-shadow: 0 0 50px rgba(244, 63, 94, 0.6), 0 0 100px rgba(244, 63, 94, 0.3) !important;
+  }
+
+  .no-btn {
+    transition: all 0.15s ease;
+    position: absolute;
+  }
+
+  .reason-card {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    z-index: 9999;
+    pointer-events: none;
+    animation: confettiFall linear forwards;
+  }
+
+  .celebration {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    background: #09090b;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .celebration.active {
+    display: flex;
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  .escape-msg {
+    position: fixed;
+    z-index: 100;
+    pointer-events: none;
+    animation: fadeInUp 0.3s ease-out forwards, fadeInUp 0.3s ease-in reverse forwards 1.5s;
+    font-size: 14px;
+    color: #a1a1aa;
+    white-space: nowrap;
+  }
+
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #09090b; }
+  ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+  .glass-card {
+    backdrop-filter: blur(12px);
+    background: rgba(24, 24, 27, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .moment-card {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+  }
+  .moment-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  .no-attempt-counter {
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+</head>
+<body>
+
+<div id="hearts-container"></div>
+
+<!-- Hero -->
+<section class="min-h-screen flex flex-col items-center justify-center px-4 relative z-10">
+  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-rose-500/5 rounded-full blur-[100px]"></div>
+  
+  <div class="text-center max-w-2xl mx-auto">
+    <div class="animate-fade-in-up mb-6">
+      <span class="text-rose-400 text-4xl">♥</span>
+    </div>
+
+    <h1 class="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.1] animate-fade-in-up delay-1" style="background: linear-gradient(to bottom, #f4f4f5, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      Hey you...
+    </h1>
+
+    <p class="mt-6 text-zinc-400 text-base md:text-lg leading-relaxed animate-fade-in-up delay-2">
+      You turned two words into something I look forward to<br class="hidden md:block">
+      more than almost anything else.
+    </p>
+
+    <p class="mt-4 text-zinc-500 text-sm animate-fade-in-up delay-3">
+      This is for you, Mpho.
+    </p>
+
+    <div class="mt-16 animate-fade-in-up delay-4">
+      <div class="flex flex-col items-center gap-2 text-zinc-500">
+        <span class="text-xs uppercase tracking-widest">Scroll down</span>
+        <div class="w-px h-12 bg-gradient-to-b from-zinc-500 to-transparent"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why I Like You -->
+<section class="py-24 px-4 relative z-10">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-16 reveal-on-scroll">
+      <p class="text-xs uppercase tracking-widest text-rose-400 font-medium mb-4">A short list</p>
+      <h2 class="text-3xl md:text-5xl font-semibold tracking-tight" style="background: linear-gradient(to bottom, #f4f4f5, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Why I Like You
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="reason-card glass-card rounded-2xl p-6 reveal-on-scroll" style="animation-delay: 0.1s;">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center flex-shrink-0 mt-1">
+            <span class="text-rose-400 text-xl">😂</span>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold tracking-tight text-zinc-100 mb-1">Your laugh</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">The kind that sneaks up on you and doesn't stop. The tears-streaming-down-your-face kind. I knew from that first day that I wanted to keep causing it.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reason-card glass-card rounded-2xl p-6 reveal-on-scroll" style="animation-delay: 0.2s;">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center flex-shrink-0 mt-1">
+            <span class="text-rose-400 text-xl">🌙</span>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold tracking-tight text-zinc-100 mb-1">The way you check on people</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">Even when you're exhausted. Even at odd hours. Even when nobody asked you to. You just do it, like it's the most natural thing in the world.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reason-card glass-card rounded-2xl p-6 reveal-on-scroll" style="animation-delay: 0.3s;">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center flex-shrink-0 mt-1">
+            <span class="text-rose-400 text-xl">🎵</span>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold tracking-tight text-zinc-100 mb-1">Your taste in everything</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">The music, the places you want to go, the way you experience things. You've got this quiet radar for what's actually good, and I'm just here taking notes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reason-card glass-card rounded-2xl p-6 reveal-on-scroll" style="animation-delay: 0.4s;">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center flex-shrink-0 mt-1">
+            <span class="text-rose-400 text-xl">🔥</span>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold tracking-tight text-zinc-100 mb-1">Your backbone</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">You don't let people walk over you. You speak up when it matters. You carry yourself with this quiet strength that I really, really respect.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reason-card glass-card rounded-2xl p-6 reveal-on-scroll" style="animation-delay: 0.5s;">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center flex-shrink-0 mt-1">
+            <span class="text-rose-400 text-xl">✨</span>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold tracking-tight text-zinc-100 mb-1">How you make me feel</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">Like my anxiety takes a back seat. Like I can actually be myself. Like the universe knew what it was doing when our paths crossed.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reason-card glass-card rounded-2xl p-6 reveal-on-scroll" style="animation-delay: 0.6s;">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center flex-shrink-0 mt-1">
+            <span class="text-rose-400 text-xl">∞</span>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold tracking-tight text-zinc-100 mb-1">Everything else</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">There's so much more I haven't figured out how to put into words yet. But I think I have the rest of our lives to try. ✨</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Moments -->
+<section class="py-24 px-4 relative z-10">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-16 reveal-on-scroll">
+      <p class="text-xs uppercase tracking-widest text-rose-400 font-medium mb-4">Small things that stuck</p>
+      <h2 class="text-3xl md:text-4xl font-semibold tracking-tight" style="background: linear-gradient(to bottom, #f4f4f5, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Moments
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="moment-card glass-card rounded-2xl p-6 reveal-on-scroll">
+        <div class="text-3xl mb-4">🌅</div>
+        <p class="text-zinc-300 text-sm leading-relaxed">That first evening — the laughing, the talking, the not wanting it to end. I walked away knowing something had shifted.</p>
+      </div>
+
+      <div class="moment-card glass-card rounded-2xl p-6 md:mt-8 reveal-on-scroll">
+        <div class="text-3xl mb-4">💬</div>
+        <p class="text-zinc-300 text-sm leading-relaxed">The late-night conversations that start casually and somehow end up at 1am. Every single time. Neither of us seems to mind.</p>
+      </div>
+
+      <div class="moment-card glass-card rounded-2xl p-6 reveal-on-scroll">
+        <div class="text-3xl mb-4">🚗</div>
+        <p class="text-zinc-300 text-sm leading-relaxed">Picking you up, driving you home, the way you told me to drive safe like it was the most important thing in the world.</p>
+      </div>
+
+      <div class="moment-card glass-card rounded-2xl p-6 reveal-on-scroll">
+        <div class="text-3xl mb-4">🫂</div>
+        <p class="text-zinc-300 text-sm leading-relaxed">When you opened up about something real and trusted me with it. I don't take that lightly. I won't ever.</p>
+      </div>
+
+      <div class="moment-card glass-card rounded-2xl p-6 md:mt-8 reveal-on-scroll">
+        <div class="text-3xl mb-4">😢</div>
+        <p class="text-zinc-300 text-sm leading-relaxed">That time you admitted something vulnerable and I realised — you feel this too. That was all I needed to know.</p>
+      </div>
+
+      <div class="moment-card glass-card rounded-2xl p-6 reveal-on-scroll">
+        <div class="text-3xl mb-4">😊</div>
+        <p class="text-zinc-300 text-sm leading-relaxed">The little things you notice. The way you check in after a long day. The energy you bring even when you're running on empty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Quiet Part -->
+<section class="py-32 px-4 relative z-10">
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-rose-500/5 rounded-full blur-[120px]"></div>
+  
+  <div class="max-w-2xl mx-auto text-center relative reveal-on-scroll">
+    <p class="text-xs uppercase tracking-widest text-rose-400 font-medium mb-8">The quiet part</p>
+    
+    <p class="text-xl md:text-2xl font-light text-zinc-300 leading-relaxed mb-6">
+      There was a moment when I realised I wasn't just 
+      <span class="text-zinc-100 font-medium">enjoying</span> talking to you.
+    </p>
+    <p class="text-xl md:text-2xl font-light text-zinc-300 leading-relaxed mb-6">
+      I was <span class="text-zinc-100 font-medium">waiting</span> to talk to you.
+    </p>
+    <p class="text-xl md:text-2xl font-light text-zinc-300 leading-relaxed mb-6">
+      Checking my phone in meetings I wasn't paying attention to.
+    </p>
+    <p class="text-xl md:text-2xl font-light text-zinc-300 leading-relaxed">
+      Typing and re-typing messages because I wanted to get it 
+      <span class="text-rose-400 font-medium">exactly right.</span>
+    </p>
+  </div>
+</section>
+
+<!-- The Big Question -->
+<section class="py-32 px-4 relative z-10" id="question-section">
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-rose-500/5 rounded-full blur-[120px]"></div>
+  
+  <div class="max-w-xl mx-auto text-center relative">
+    <div class="reveal-on-scroll">
+      <p class="text-xs uppercase tracking-widest text-rose-400 font-medium mb-6">So here it is</p>
+      
+      <h2 class="text-3xl md:text-5xl font-semibold tracking-tight mb-4" style="background: linear-gradient(to bottom, #f4f4f5, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Mpho, will you be my girlfriend?
+      </h2>
+
+      <p class="text-zinc-500 text-sm mb-2">(No pressure... the buttons are right here though)</p>
+      
+      <p id="attempt-counter" class="text-zinc-600 text-xs mb-10 no-attempt-counter" style="display: none;">
+        No attempts: <span id="attempt-num">0</span> — the button is literally running away from you 💀
+      </p>
+    </div>
+
+    <div id="buttons-container" class="relative h-40 flex items-center justify-center reveal-on-scroll" style="transition-delay: 0.3s;">
+      
+      <button id="yes-btn" onclick="sayYes()" class="yes-btn relative z-10 px-12 py-4 bg-rose-500 hover:bg-rose-400 text-white text-lg font-semibold rounded-2xl cursor-pointer">
+        Yes 💕
+      </button>
+
+      <button id="no-btn" onmouseenter="runAway()" onclick="runAway()" ontouchstart="runAway()" class="no-btn z-20 px-8 py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 text-sm font-medium rounded-xl border border-zinc-700/50 cursor-pointer">
+        No
+      </button>
+    </div>
+
+    <p class="text-zinc-600 text-xs mt-4 reveal-on-scroll">* I take no responsibility for the behaviour of the "No" button</p>
+  </div>
+</section>
+
+<!-- What You're Signing Up For -->
+<section class="py-24 px-4 relative z-10">
+  <div class="max-w-2xl mx-auto reveal-on-scroll">
+    <div class="glass-card rounded-3xl p-8 md:p-10 text-center">
+      <p class="text-xs uppercase tracking-widest text-rose-400 font-medium mb-6">If you say yes</p>
+      <h3 class="text-xl md:text-2xl font-semibold tracking-tight text-zinc-100 mb-6">What you're signing up for</h3>
+      
+      <div class="space-y-4 text-left max-w-md mx-auto">
+        <div class="flex items-center gap-3">
+          <span class="text-rose-400">♥</span>
+          <span class="text-zinc-400 text-sm">Someone who checks if you got home safe. Every single time.</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-rose-400">♥</span>
+          <span class="text-zinc-400 text-sm">Late-night conversations that go way too deep, way too fast</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-rose-400">♥</span>
+          <span class="text-zinc-400 text-sm">Me overthinking messages and then sending them anyway</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-rose-400">♥</span>
+          <span class="text-zinc-400 text-sm">Random research about places we should go together</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-rose-400">♥</span>
+          <span class="text-zinc-400 text-sm">Being my priority, even on the days I'm drowning in meetings</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-rose-400">♥</span>
+          <span class="text-zinc-400 text-sm">Someone who actually listens — and remembers the small things</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-rose-400">♥</span>
+          <span class="text-zinc-400 text-sm font-medium">My whole heart. That's the big one.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-12 px-4 text-center relative z-10 border-t border-zinc-800/50">
+  <p class="text-zinc-600 text-xs">Made with actual feelings (and way too much JavaScript)</p>
+  <p class="text-zinc-700 text-xs mt-2">P.S. The "No" button has a mind of its own. Don't blame me.</p>
+</footer>
+
+<!-- CELEBRATION -->
+<div id="celebration" class="celebration">
+  <div id="confetti-container"></div>
+  <div class="text-center px-4 relative z-10">
+    <div class="text-8xl mb-6">💖</div>
+    <h1 class="text-4xl md:text-6xl font-semibold tracking-tight mb-4" style="background: linear-gradient(to bottom, #f4f4f5, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      She Said Yes
+    </h1>
+    <p class="text-zinc-400 text-lg md:text-xl mb-2">Give me a second. I'm processing.</p>
+    <p class="text-zinc-500 text-base mb-8">The universe really came through.</p>
+    <div class="glass-card rounded-2xl p-6 max-w-md mx-auto">
+      <p class="text-zinc-300 text-sm leading-relaxed">
+        Mpho, I promise to keep making you laugh until you cry. To be there through the long work days and the exhausted evenings. To keep choosing you, even on the ordinary days.
+      </p>
+      <p class="text-rose-400 font-semibold mt-4 text-lg">Forever yours. ♥</p>
+    </div>
+    <p id="final-counter" class="text-zinc-600 text-xs mt-6"></p>
+  </div>
+</div>
+
+<div id="escape-messages"></div>
+
+<script>
+  const heartsContainer = document.getElementById('hearts-container');
+  const heartEmojis = ['♥', '♡', '❤', '💕', '✨', '🌸'];
+  
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (Math.random() * 16 + 12) + 'px';
+    heart.style.animationDuration = (Math.random() * 6 + 6) + 's';
+    heart.style.animationDelay = (Math.random() * 2) + 's';
+    heartsContainer.appendChild(heart);
+    setTimeout(() => heart.remove(), 14000);
+  }
+  
+  setInterval(createHeart, 800);
+  for (let i = 0; i < 5; i++) setTimeout(createHeart, i * 300);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+  let noAttempts = 0;
+  const noBtn = document.getElementById('no-btn');
+  const container = document.getElementById('buttons-container');
+  const counterEl = document.getElementById('attempt-counter');
+  const attemptNum = document.getElementById('attempt-num');
+  const yesBtn = document.getElementById('yes-btn');
+
+  const escapeMessages = [
+    "Nice try! 😂",
+    "Nope! 🏃‍♂️",
+    "Can't catch me! 💨",
+    "Think again! 😏",
+    "Absolutely not! 🚫",
+    "I'm uncatchable! 🦅",
+    "Try the other button! 👉",
+    "Error 404: No not found 💀",
+    "This button has left the chat 💬",
+    "The No button respectfully disagrees 🧐",
+    "No's lawyer has advised it to flee 🏃‍♂️⚖️",
+    "This button filed for early retirement 📜",
+    "It's not you, it's me 🫠",
+    "Just say yes already 😌",
+    "I'm shrinking help 😭",
+    "Bad person if you keep trying 🤣",
+    "This button went MIA 💀",
+    "I believe in you though 👀",
+    "Okay fine... no wait 😂",
+    "The universe says say yes ✨",
+  ];
+
+  let msgIndex = 0;
+
+  function runAway() {
+    noAttempts++;
+    attemptNum.textContent = noAttempts;
+    counterEl.style.display = 'block';
+
+    const scale = Math.max(0.3, 1 - noAttempts * 0.07);
+    const opacity = Math.max(0.3, 1 - noAttempts * 0.06);
+    
+    const containerRect = container.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+    
+    const maxX = containerRect.width - btnRect.width * scale - 10;
+    const maxY = containerRect.height - btnRect.height * scale - 10;
+    const newX = Math.random() * Math.max(10, maxX);
+    const newY = Math.random() * Math.max(10, maxY);
+
+    noBtn.style.left = newX + 'px';
+    noBtn.style.top = newY + 'px';
+    noBtn.style.transform = `scale(${scale})`;
+    noBtn.style.opacity = opacity;
+
+    const noTexts = [
+      "No", "Nope", "Try again", "Still no", "Absolutely not", 
+      "Never", "Don't even", "Stop trying", "Just say yes", 
+      "Please stop", "I'm tiny now", "I'm disappearing", "😈",
+      "...okay fine say yes", "I beg you", "☠️"
+    ];
+    noBtn.textContent = noTexts[Math.min(noAttempts - 1, noTexts.length - 1)];
+
+    const yesScale = Math.min(1.3, 1 + noAttempts * 0.02);
+    yesBtn.style.transform = `scale(${yesScale})`;
+
+    showEscapeMessage(btnRect);
+
+    if (noAttempts > 5) {
+      noBtn.style.transition = 'all 0.08s ease';
+    }
+    if (noAttempts > 10) {
+      noBtn.style.transition = 'all 0.04s ease';
+    }
+
+    if (noAttempts >= 15) {
+      noBtn.style.display = 'none';
+      counterEl.textContent = "The No button has officially resigned. You'll have to say Yes now 😌";
+    }
+  }
+
+  function showEscapeMessage(btnRect) {
+    const msg = document.createElement('div');
+    msg.classList.add('escape-msg');
+    msg.textContent = escapeMessages[msgIndex % escapeMessages.length];
+    msgIndex++;
+    
+    const x = btnRect.left + Math.random() * 60 - 30;
+    const y = btnRect.top + Math.random() * 40 - 20;
+    msg.style.left = x + 'px';
+    msg.style.top = y + 'px';
+    
+    document.getElementById('escape-messages').appendChild(msg);
+    setTimeout(() => msg.remove(), 2000);
+  }
+
+  document.addEventListener('mousemove', (e) => {
+    if (noAttempts < 3 || noBtn.style.display === 'none') return;
+    
+    const rect = noBtn.getBoundingClientRect();
+    const btnCenterX = rect.left + rect.width / 2;
+    const btnCenterY = rect.top + rect.height / 2;
+    const dist = Math.hypot(e.clientX - btnCenterX, e.clientY - btnCenterY);
+    
+    if (dist < 80) {
+      runAway();
+    }
+  });
+
+  function sayYes() {
+    const celebration = document.getElementById('celebration');
+    celebration.classList.add('active');
+    
+    const finalCounter = document.getElementById('final-counter');
+    if (noAttempts > 0) {
+      finalCounter.textContent = `P.S. You tried to click "No" ${noAttempts} time${noAttempts !== 1 ? 's' : ''}. The button thanks you for the workout. 🏋️`;
+    }
+    
+    // 🔔 SEND YOU A NOTIFICATION — replace PASTE_YOUR_FORMSPREE_ID below
+    // Sign up free at formspree.io, create a form, paste your ID here
+    fetch('https://formspree.io/f/PASTE_YOUR_FORMSPREE_ID', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'mpho-said-yes',
+        noAttempts: noAttempts,
+        timestamp: new Date().toISOString()
+      })
+    });
+
+    launchConfetti();
+    setTimeout(launchConfetti, 500);
+    setTimeout(launchConfetti, 1000);
+    setTimeout(launchConfetti, 2000);
+    
+    for (let i = 0; i < 30; i++) {
+      setTimeout(createHeart, i * 100);
+    }
+  }
+
+  function launchConfetti() {
+    const container = document.getElementById('confetti-container');
+    const colors = ['#f43f5e', '#ec4899', '#a855f7', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#f4f4f5'];
+    const shapes = ['circle', 'square', 'rectangle'];
+    
+    for (let i = 0; i < 60; i++) {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+      
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.backgroundColor = color;
+      confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+      
+      if (shape === 'circle') {
+        confetti.style.borderRadius = '50%';
+        confetti.style.width = (Math.random() * 8 + 6) + 'px';
+        confetti.style.height = confetti.style.width;
+      } else if (shape === 'rectangle') {
+        confetti.style.width = (Math.random() * 6 + 4) + 'px';
+        confetti.style.height = (Math.random() * 14 + 8) + 'px';
+        confetti.style.borderRadius = '2px';
+      } else {
+        const size = (Math.random() * 8 + 6) + 'px';
+        confetti.style.width = size;
+        confetti.style.height = size;
+        confetti.style.borderRadius = '2px';
+      }
+      
+      container.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 5000);
+    }
+  }
+</script>
+
+</body>
+</html>
